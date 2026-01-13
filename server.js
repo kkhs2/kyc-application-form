@@ -1,15 +1,16 @@
 import express from "express";
-import crypto from "crypto";
 
 const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
+const PORT = process.env.PORT || 3000;
 
 const TOKEN_URL = "https://login.cat.uk.pt-x.com/auth/realms/bottomline/protocol/openid-connect/token";
 const REQUEST_URL = "https://ptx-shared-services.cat.uk.pt-x.com/account-verification/v1/account-name-verifications";
-const CLIENT_ID = "BookerLtd(TR00027679)_41d-4fab-9a9a-1a193be88d77";
-const CLIENT_SECRET = "FeiIw6tzNyBhXp0xtqlUjPUF5J1YZlBC";
+
+const CLIENT_ID = process.env.PTX_CLIENT_ID;
+const CLIENT_SECRET = process.env.PTX_CLIENT_SECRET;
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
   throw new Error("Missing PTX_CLIENT_ID or PTX_CLIENT_SECRET");
@@ -83,4 +84,4 @@ app.post("/api/cop", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server running"));
+app.listen(PORT, () => console.log("Server running"));
