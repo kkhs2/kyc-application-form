@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmation of Payee</title>
+  <style>
+    body { font-family: Arial; padding: 2rem; }
+    label { display: block; margin-top: 1rem; }
+    input, select, button { padding: 0.5rem; width: 300px; }
+    pre { background: #f4f4f4; padding: 1rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h2>Confirmation of Payee</h2>
+
+  <label>
+    Payee name
+    <input id="name" value="Miss Samantha Smythe" />
+  </label>
+
+  <label>
+    Sort code
+    <input id="sortCode" value="999996" />
+  </label>
+
+  <label>
+    Account number
+    <input id="accountNumber" value="00000001" />
+  </label>
+
+  <label>
+    Payee type
+    <select id="type">
+      <option value="PERSONAL">PERSONAL</option>
+      <option value="BUSINESS">BUSINESS</option>
+    </select>
+  </label>
+
+  <button onclick="callCop()">Check CoP</button>
+
+  <pre id="output">Waiting…</pre>
+
+  <script>
+    async function callCop() {
+      const output = document.getElementById("output");
+      output.textContent = "Checking…";
+
+      try {
+        // Fetch to your backend (not PTX directly)
+        const response = await fetch("/api/cop", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: document.getElementById("name").value,
+            sortCode: document.getElementById("sortCode").value,
+            accountNumber: document.getElementById("accountNumber").value,
+            type: document.getElementById("type").value
+          })
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Server returned ${response.status}: ${errText}`);
+        }
+
+        const data = await response.json();
+        output.textContent = JSON.stringify(data, null, 2);
+
+      } catch (err) {
+        output.textContent = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
