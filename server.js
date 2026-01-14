@@ -1,16 +1,29 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-app.use(express.json());
-app.use(express.static("public"));
 
-const PORT = process.env.PORT || 3000;
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.use(express.json());
 
 const TOKEN_URL = "https://login.cat.uk.pt-x.com/auth/realms/bottomline/protocol/openid-connect/token";
 const REQUEST_URL = "https://ptx-shared-services.cat.uk.pt-x.com/account-verification/v1/account-name-verifications";
 
 const CLIENT_ID = process.env.PTX_CLIENT_ID;
 const CLIENT_SECRET = process.env.PTX_CLIENT_SECRET;
+const PORT = process.env.PORT || 3000;
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
   throw new Error("Missing PTX_CLIENT_ID or PTX_CLIENT_SECRET");
@@ -55,7 +68,7 @@ app.post("/api/cop", async (req, res) => {
 
     const payload = {
       requestId: crypto.randomUUID(),
-      checkType: "Payee",
+      checkType: "Payer",
       accountType: type.toUpperCase(),    // PERSONAL / BUSINESS
       sortCode: sortCode.toString().padStart(6, "0"),
       accountNumber: accountNumber.toString().padStart(8, "0"),
