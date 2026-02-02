@@ -12,6 +12,7 @@ const bankVerificationErrorContainer = document.getElementById(
 );
 bankVerificationErrorContainer.classList.add("d-none");
 
+
 /* VDD email address disable input */
 const inputs = [...document.getElementsByTagName("kyc-input")];
 const email = inputs.find(

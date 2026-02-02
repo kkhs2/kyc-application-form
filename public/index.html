@@ -159,7 +159,7 @@
                             <kyc-input data-show-if="self.isTradingStyleEqual('') || self.isTradingStyleEqual('Ltd Company') || self.isTradingStyleEqual('Charity / Other')"
                                        data-type="numeric-text"
                                        data-label="Company Name"
-                                       data-value="Ltd Company"
+                                       data-value="Test Company"
                                        data-name="CompanyName"
                                        data-request-field-name="company-name"
                                        data-required="true"
@@ -929,9 +929,8 @@
                             </white-container>
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')" data-type="select"
-                                       data-is-trading-style="true"
                                        data-label="Account Type"
-                                       data-value=""
+                                       data-value="Business"
                                        data-name="AccountType"
                                        data-request-field-name="account-type"
                                        data-required="true"
@@ -949,7 +948,7 @@
                     ">
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="alphanumeric"
-                                       data-value="Miss Samantha Smythe"
+                                       data-value="Bridgford Gardening"
                                        data-label="Name on Account"
                                        data-required="true"
                                        data-name="NameOnBankAccount"
@@ -975,7 +974,7 @@
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="numeric"
-                                       data-value="00000001"
+                                       data-value="00000011"
                                        data-label="Bank Account Number"
                                        data-required="true"
                                        data-name="BankAccountNumber"
@@ -1071,7 +1070,7 @@
                     <tab-content data-index="3">
                         <div class="slot-container">
                             <kyc-input data-type="numeric"
-                                       data-value=""
+                                       data-value="20000"
                                        data-label="Average Weekly spend"
                                        data-placeholder="£"
                                        data-required="true"
@@ -1081,7 +1080,7 @@
                                        data-max="6"></kyc-input>
 
                             <kyc-input data-type="numeric"
-                                       data-value=""
+                                       data-value="18000"
                                        data-label="Credit Limit Required"
                                        data-placeholder="£"
                                        data-required="true"
@@ -1092,7 +1091,7 @@
 
                             <kyc-input data-type="select"
                                        data-options="self.getCreditTypeSelectOptions()"
-                                       data-value=""
+                                       data-value="Cleardown Credit"
                                        data-label="Credit Type"
                                        data-name="CreditType"
                                        data-required="true"
@@ -1116,7 +1115,7 @@
                                 <kyc-input data-show-if="self.isCreditTypeEqual('Cleardown Credit')"
                                            data-type="select"
                                            data-options="7, 14"
-                                           data-value=""
+                                           data-value="7"
                                            data-label="Number of days credit"
                                            data-required="true"
                                            data-name="NumberDaysCredit"
@@ -1125,7 +1124,7 @@
                                 <kyc-input data-show-if="self.isCreditTypeEqual('Cleardown Credit')"
                                            data-type="select"
                                            data-options="Monday, Tuesday, Wednesday, Thursday, Friday"
-                                           data-value=""
+                                           data-value="Tuesday"
                                            data-label="Payment Day"
                                            data-required="true"
                                            data-name="PaymentDay"
