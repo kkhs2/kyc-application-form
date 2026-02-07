@@ -15,5 +15,4 @@ const creditRequirementsAccordion = [...accordions].find(a => (a.getAttribute("d
 if (creditRequirementsAccordion) {
   const paragraphs = creditRequirementsAccordion.querySelectorAll("p");
   const currentCreditLimit = paragraphs[0].querySelector("strong").textContent;
-
 }
