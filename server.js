@@ -18,8 +18,8 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 
-const TOKEN_URL = "https://login.cat.uk.pt-x.com/auth/realms/bottomline/protocol/openid-connect/token";
-const REQUEST_URL = "https://ptx-shared-services.cat.uk.pt-x.com/account-verification/v1/account-name-verifications";
+const TOKEN_URL = "https://login.go.pt-x.com/auth/realms/bottomline/protocol/openid-connect/token";
+const REQUEST_URL = "https://ptx-shared-services.uk.pt-x.com/account-verification/v1/account-name-verifications";
 
 const CLIENT_ID = process.env.PTX_CLIENT_ID;
 const CLIENT_SECRET = process.env.PTX_CLIENT_SECRET;
@@ -69,7 +69,7 @@ app.post("/api/cop", async (req, res) => {
     const payload = {
       requestId: crypto.randomUUID(),
       checkType: "Payer",
-      accountType: type.toUpperCase(),    // PERSONAL / BUSINESS
+      accountType: type.toUpperCase(),    
       sortCode: sortCode.toString().padStart(6, "0"),
       accountNumber: accountNumber.toString().padStart(8, "0"),
       name: name
