@@ -149,7 +149,7 @@
                                        data-name="TradingStyle"
                                        data-request-field-name="trading-style"
                                        data-required="true"
-                                       data-options="Ltd Company, Sole Trader / Partnership, Charity / Other"
+                                       data-options="Ltd Company, Sole Trader / Partnership, Charity / Other, Council / Local Authority"
                                        data-order="0"></kyc-input>
 
                             <kyc-input data-show-if="self.isTradingStyleEqual('') || self.isTradingStyleEqual('Ltd Company') || self.isTradingStyleEqual('Charity / Other')"
@@ -398,7 +398,8 @@
                                        data-order="7"
                                        class="mt-14"></kyc-input>
 
-                            <kyc-input id="user-email"
+                            <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
+                            id="user-email" 
                                        data-type="email"
                                        data-placeholder="name@example.com"
                                        data-label="VDD Email Address"
@@ -410,7 +411,8 @@
                                        data-order="7"
                                        class="mt-14"></kyc-input>
 
-                            <kyc-input data-type="email"
+                            <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')" 
+                            data-type="email"
                                        data-placeholder="name@example.com"
                                        data-label="Notification Email Address"
                                        data-value="kenneth.shum@booker.co.uk"
@@ -419,6 +421,34 @@
                                        data-min="2"
                                        data-max="100"
                                        data-order="7"
+                                       class="mt-14"></kyc-input>
+
+                               <kyc-input data-show-if="self.isTradingStyleEqual('Council / Local Authority')"  
+                               id="user-email"
+                                       data-type="email"
+                                       data-placeholder="name@example.com"
+                                       data-required="true"
+                                       data-label="Email Address"
+                                       data-value=""
+                                       data-name="EmailAddress"
+                                       data-request-field-name="email-address"
+                                       data-min="2"
+                                       data-max="100"
+                                       data-order="7"
+                                       class="mt-14"></kyc-input>
+
+                            <kyc-input data-show-if="self.isTradingStyleEqual('Council / Local Authority')"  
+                            data-type="confirm-email"
+                                       data-placeholder="name@example.com"
+                                       data-required="true"
+                                       data-label="Confirm Email Address"
+                                       data-value=""
+                                       data-name="ConfirmEmailAddress"
+                                       data-request-field-name="confirm-email-address"
+                                       data-min="2"
+                                       data-max="100"
+                                       data-order="7"
+                                       data-email-id="#user-email"
                                        class="mt-14"></kyc-input>
 
                             <kyc-input data-required="true"
