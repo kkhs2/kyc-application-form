@@ -715,7 +715,7 @@
                 this.handleAddressSelectChange
               }" class="${this.selected ? "selected" : ""}">
                 <option disabled selected>
-                  â€” Please Select an addressâ€”
+                  Ã¢â‚¬â€ Please Select an addressÃ¢â‚¬â€
                 </option>
               </select>
             </div>
@@ -2350,7 +2350,7 @@
                 if (!this.isSubmit || errors) {
                   if (!errors)
                     return (
-                      "Council / Local Authority" ===
+                      "" ===
                         trading_style_1.default.value &&
                       1 === active_tab_1.default.value
                         ? (active_tab_1.default.value = 3)
