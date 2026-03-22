@@ -1,18 +1,61 @@
+/* 
+We need to add text with a checkbox to the process to confirm the customer is the account holder and the payer. If not they cannot proceed and copy must be made available for printing.
+For confirm the person is the only person required to authorise debit from the account.  If they say No, then we need to stop the process and provide a mechanism to send them the mandate to complete (email to them or provide link for them to download).  
+We need to add text with a checkbox to confirm the bank details (bank details shown to customer and they tick to agree they are correct / or just a text box to agree that details previously provided are correct).
+Optional - show the notice period
+Optional - advise company name that will appear against the DD.
+Where the customer downloads the data they entered. We need to change this from using a mandate to be a confirmation letter
+
+*/
+
+
 window.__currentNextClick = null;
 window.__copAutoAdvance = false;
 window.__copResumeInProgress = false;
 
 const bankSectionNextButton = document.getElementById("bankSectionNextButton");
 const sections = [...document.getElementsByTagName("accordion-tab")];
+const confirmAccountHolder = document.getElementById("confirmAccountHolder");
+
 const bankSection = sections.find(
   (s) => s.getAttribute("data-title") == "Bank Details"
 );
+
+const businessTradingSection = sections.find(
+  (s) => s.getAttribute("data-title") == "Business / Trading Information"
+);
+
+
 const bankVerificationErrorContainer = document.getElementById(
-  "bankVerificationErrorContainer"
+  "bankVerificationErrorContainer"   
 );
 bankVerificationErrorContainer.classList.add("d-none");
 
 const nextButtons = [...document.getElementsByTagName("next-button")];
+
+const toggleBankDetailsContent = () => {
+  const bankWhiteContainers = [...bankSection.getElementsByTagName("white-container")];
+    bankWhiteContainers.map(container => {
+      if (container.id !== "confirmAccountHolderPayer" && container.id !== "bankVerificationErrorContainer") {container.classList.toggle('d-none')};
+    });
+    const bankKycInputs = [...bankSection.getElementsByTagName("kyc-input")];
+    bankKycInputs.map(input => { 
+      if (input.id !== "confirmAccountHolder") {input.classList.toggle('d-none');}
+    });
+    const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
+    bankKycNote.map(note => note.classList.toggle('d-none'));
+    bankSectionNextButton.classList.toggle('d-none');
+}
+
+toggleBankDetailsContent();
+const companyName = businessTradingSection.getAttribute("data-value");
+
+console.log(companyName);
+
+confirmAccountHolder.addEventListener('click', () => {
+    // function to unhide the entire Bank Details section
+    toggleBankDetailsContent();
+});
 
 document.addEventListener(
   "click",
