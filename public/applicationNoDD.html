@@ -876,9 +876,9 @@
                         <div class="slot-container">
                            <white-container id="confirmAccountHolderPayer" data-show-if="!self.isTradingStyleEqual('Council / Local Authority')">
                               
-                               <label class="checkbox-inline">
+                               <span><label class="checkbox-inline">
                                     <input type="checkbox" name="confirmAccountHolder" id="confirmAccountHolder" class="mr-2" />Please confirm you are the bank account holder and payer. If you are not the bank account holder you cannot continue with the online process and must print and complete the mandate <a href="" class="font-weight-bold">here</a> and return it to your local branch.
-                                </label>
+                                </label></span>
                              
                              </white-container>
                             <white-container grid="true" data-title="Bank Name & Address">
@@ -1026,8 +1026,10 @@
                                        data-min="0"
                                        data-max="100"></kyc-input>
 
-                                       <span></span>
                             
+
+                                       <span></span>
+                            <white-container>
                              <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                            data-type="checkbox"
                                            data-label="Please confirm the bank details provided above are correct"
@@ -1036,6 +1038,19 @@
                                            data-name="confirmBankCorrect"
                                            id="confirmBankCorrect"
                                            data-request-field-name="confirm-bank-correct-checked"></kyc-input>
+                            </white-container>
+                            <white-container>
+                                <div class="d-flex flex-wrap justify-content-between ">
+                                   <p class="h2">The Direct Debit Guarantee</p> <img src="https://www.directdebit.co.uk/media/yojffdzu/dd_logo.png">
+                                </div>
+                                <p class="lh-base">This Guarantee is offered by all banks and building societies that accept instructions to pay Direct Debits.<br><br>
+                                    &#8226; If there are any changes to the amount, date or frequency of your Direct Debit, Booker Ltd will notify you 3 working days in advance of your account being debited or as otherwise agreed. If you request Booker Ltd to collect a payment, confirmation of the amount and date will be given to you at the time of the request.<br>
+                                    &#8226; If an error is made in the payment of your Direct Debit, by Booker Ltd or your bank or building society you are entitled to a full and immediate refund of thr amount paid from your bank or building society.<br>
+                                    &#8226; If you receive a refund you are not entitled to, you must pay it back when Booker Ltd asks you to.<br>
+                                    &#8226; You can cancel a Direct Debit at any time by simply contacting your bank or building society. Written confirmation may be required. Please also notify us.
+                                </p>
+                            </white-container>
+                         
                             <white-container data-title="Second Signatory Details"
                                              grid="true"
                                              style="margin-top: 12px">
