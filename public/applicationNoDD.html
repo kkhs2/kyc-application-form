@@ -876,9 +876,9 @@
                         <div class="slot-container">
                            <white-container id="confirmAccountHolderPayer" data-show-if="!self.isTradingStyleEqual('Council / Local Authority')">
                               
-                               <span><label class="checkbox-inline">
-                                    <input type="checkbox" name="confirmAccountHolder" id="confirmAccountHolder" class="mr-2" />Please confirm you are the bank account holder and payer. If you are not the bank account holder you cannot continue with the online process and must print and complete the mandate <a href="" class="font-weight-bold">here</a> and return it to your local branch.
-                                </label></span>
+                               <label class="checkbox-inline">
+                                    <input type="checkbox" name="confirmAccountHolder" id="confirmAccountHolder" class="mr-2" />Please confirm you are the bank account holder and payer. If you are not the bank account holder you cannot continue with the online process and must print and complete the mandate <a href class="font-weight-bold" id="confirmAccountHolderUrl">here</a> and return it to your local branch.</span>
+                                </label>
                              
                              </white-container>
                             <white-container grid="true" data-title="Bank Name & Address">
@@ -935,17 +935,7 @@
                                 <span style="color: red; font-weight:bold;">We are sorry, your bank details could not be verified. Please ensure your Name on Account, Bank Sort Code and Bank Account Number details are entered correctly and try again.</span>
                             </white-container>
 
-                            <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')" data-type="select"
-                                       data-label="Please confirm you are the Account Holder and Payer"
-                                       data-type="select"
-                                       data-value=""
-                                       data-name="ConfirmHolder"
-                                       data-request-field-name="confirm-holder"
-                                       data-required="true"
-                                       data-options="Yes, No"
-                                       ></kyc-input>
-
-                            <span></span>
+                           
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority') && self.isAccountHolderAndPayer()" data-type="select"
                                        data-label="Account Type"
@@ -1222,6 +1212,25 @@
     </div>
 </div>
 <script type="text/javascript" src="/bankverify.js" nonce="<nonce>"></script>
+<script>
+    const inputs = [...document.getElementsByTagName("kyc-input")];
+    const guarantorCheckbox = inputs.find(
+  (i) => i.getAttribute("data-name") === "guarantorsCheckbox"
+);
+
+
+    const guarantorInput = guarantorCheckbox.shadowRoot;
+    guarantorInput.addEventListener('change', () => {
+       let isGuarantorChecked = guarantorInput.querySelector('input').checked;
+       if (isGuarantorChecked) {
+        document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf";
+       } else {
+        document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
+       }
+    });
+
+    
+</script>
 <script nonce="<nonce>">
     $(document).ready(function () {
 
