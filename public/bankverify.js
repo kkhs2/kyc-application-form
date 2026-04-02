@@ -16,6 +16,7 @@ window.__copResumeInProgress = false;
 const bankSectionNextButton = document.getElementById("bankSectionNextButton");
 const sections = [...document.getElementsByTagName("accordion-tab")];
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
+const inputs = [...document.getElementsByTagName("kyc-input")];
 
 const bankSection = sections.find(
   (s) => s.getAttribute("data-title") == "Bank Details"
