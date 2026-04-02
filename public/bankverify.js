@@ -25,6 +25,21 @@ const businessTradingSection = sections.find(
   (s) => s.getAttribute("data-title") == "Business / Trading Information"
 );
 
+const guarantorCheckbox = inputs.find(
+  (i) => i.getAttribute("data-name") === "guarantorsCheckbox"
+);
+
+
+    const guarantorInput = guarantorCheckbox.shadowRoot;
+    guarantorInput.addEventListener('change', () => {
+       let isGuarantorChecked = guarantorInput.querySelector('input').checked;
+       if (isGuarantorChecked) {
+        document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf";
+       } else {
+        document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
+       }
+    });
+
 
 const bankVerificationErrorContainer = document.getElementById(
   "bankVerificationErrorContainer"   
@@ -49,8 +64,6 @@ const toggleBankDetailsContent = () => {
 
 toggleBankDetailsContent();
 const companyName = businessTradingSection.getAttribute("data-value");
-
-console.log(companyName);
 
 confirmAccountHolder.addEventListener('click', () => {
     // function to unhide the entire Bank Details section
