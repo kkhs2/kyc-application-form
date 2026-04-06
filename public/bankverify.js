@@ -68,22 +68,55 @@ const sections = [...document.getElementsByTagName("accordion-tab")];
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
 const inputs = [...document.getElementsByTagName("kyc-input")];
 
+const companyName = inputs.find(
+  (i) => i.getAttribute("data-name") === "CompanyName"
+);
+
+const businessName = inputs.find(
+  (i) => i.getAttribute("data-name") === "BusinessName"
+);
+
+const proprietorFirstName = inputs.find(
+  (i) => i.getAttribute("data-name") === "firstName" 
+);
+
+const proprietorSurname = inputs.find(
+  (i) => i.getAttribute("data-name") === "surname" 
+);
+
+const tradingStyle = inputs.find((i) => i.getAttribute("data-name") === "TradingStyle");
+
+const chosenTradingStyle = tradingStyle.shadowRoot;
+
+chosenTradingStyle.addEventListener('change', () => {
+  const chosen = tradingStyle.getAttribute("data-value");
+  const directDebitName = document.getElementById("directDebitName");
+  directDebitName.innerHTML = (chosen === "Sole Trader / Partnership") ? proprietorFirstName.getAttribute("data-value") + " " + proprietorSurname.getAttribute("data-value") : companyName.getAttribute("data-value");
+});
+
 const bankSection = sections.find(
-  (s) => s.getAttribute("data-title") == "Bank Details"
+  (s) => s.getAttribute("data-title") === "Bank Details"
 );
 
 const businessTradingSection = sections.find(
-  (s) => s.getAttribute("data-title") == "Business / Trading Information"
+  (s) => s.getAttribute("data-title") === "Business / Trading Information"
 );
+
+const inputsFinder = (inputsName) => {
+  return document.querySelector(`[data-name="${inputsName}"]`).getAttribute("data-value");
+}
 
 const guarantorCheckbox = inputs.find(
   (i) => i.getAttribute("data-name") === "guarantorsCheckbox"
 );
 
-const docWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf";
+
+const docWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf"; 
 const docNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
 
 document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
+
+
     const guarantorInput = guarantorCheckbox.shadowRoot;
     guarantorInput.addEventListener('click', () => {
        let isGuarantorChecked = guarantorInput.querySelector('input').checked;
@@ -113,7 +146,6 @@ const toggleBankDetailsContent = () => {
 }
 
 toggleBankDetailsContent();
-const companyName = businessTradingSection.getAttribute("data-value");
 
 confirmAccountHolder.addEventListener('click', () => {
     // function to unhide the entire Bank Details section
