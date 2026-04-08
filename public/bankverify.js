@@ -110,6 +110,8 @@ const guarantorCheckbox = inputs.find(
 
 const docWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf"; 
 const docNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
+const increasewithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V6-credit-increase-withguarantor.pdf";
+const increaseNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V6-credit-increase-noguarantor.pdf";
 
 document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
 
