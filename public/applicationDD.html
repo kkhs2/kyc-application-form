@@ -427,12 +427,13 @@
                                        class="mt-14"></kyc-input>
 
 
-                            <kyc-input id="user-email"
+                            <kyc-input data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
+                                       id="user-email"
                                        data-type="email"
                                        data-placeholder="name@example.com"
                                        data-required="true"
                                        data-label="Email Address"
-                                       data-value="test@test.com"
+                                       data-value=""
                                        data-name="EmailAddress"
                                        data-request-field-name="email-address"
                                        data-min="2"
@@ -440,11 +441,12 @@
                                        data-order="7"
                                        class="mt-14"></kyc-input>
 
-                            <kyc-input data-type="confirm-email"
+                            <kyc-input data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
+                                       data-type="confirm-email"
                                        data-placeholder="name@example.com"
                                        data-required="true"
                                        data-label="Confirm Email Address"
-                                       data-value="test@test.com"
+                                       data-value=""
                                        data-name="ConfirmEmailAddress"
                                        data-request-field-name="confirm-email-address"
                                        data-min="2"
