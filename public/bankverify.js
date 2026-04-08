@@ -68,6 +68,7 @@ const sections = [...document.getElementsByTagName("accordion-tab")];
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
 const inputs = [...document.getElementsByTagName("kyc-input")];
 
+
 const companyName = inputs.find(
   (i) => i.getAttribute("data-name") === "CompanyName"
 );
@@ -101,10 +102,6 @@ const bankSection = sections.find(
 const businessTradingSection = sections.find(
   (s) => s.getAttribute("data-title") === "Business / Trading Information"
 );
-
-const inputsFinder = (inputsName) => {
-  return document.querySelector(`[data-name="${inputsName}"]`).getAttribute("data-value");
-}
 
 const guarantorCheckbox = inputs.find(
   (i) => i.getAttribute("data-name") === "guarantorsCheckbox"
