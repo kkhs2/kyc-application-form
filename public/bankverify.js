@@ -59,6 +59,7 @@ Please confirm we are all aligned on the above.
 And also a question on the scenario Customer with KYC pack > 2 years old with an active DD (SAP sends KYC=N and DD=Y) - customer apply for credit via the full credit application journey – do we need to remove the Bank Details section in the KYC form so customers cannot submit another set of bank details?  I would say yes, as the process of cancelling and adding a bank has to be carefully managed
 */
 
+
 window.__currentNextClick = null;
 window.__copAutoAdvance = false;
 window.__copResumeInProgress = false;
@@ -110,8 +111,10 @@ const guarantorCheckbox = inputs.find(
 
 const docWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf"; 
 const docNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
-const increasewithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V6-credit-increase-withguarantor.pdf";
-const increaseNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V6-credit-increase-noguarantor.pdf";
+const increasewithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-withguarantor.pdf";
+const increaseNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-noguarantor.pdf";
+
+const filename = window.location.pathname.split("/").pop();
 
 document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
 
@@ -119,7 +122,12 @@ document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMB
     const guarantorInput = guarantorCheckbox.shadowRoot;
     guarantorInput.addEventListener('click', () => {
        let isGuarantorChecked = guarantorInput.querySelector('input').checked;
-      document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? docWithGuarantor : docNoGuarantor;
+      if (filename.includes("creditincrease")) {
+        document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? docWithGuarantor : docNoGuarantor;
+      }
+      else {
+        document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? docWithGuarantor : docNoGuarantor;
+      }
     });
 
 
