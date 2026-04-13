@@ -116,12 +116,12 @@ const increaseNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-cre
 
 const filename = window.location.pathname.split("/").pop();
 
-document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
+//document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
 
 
     const guarantorInput = guarantorCheckbox.shadowRoot;
     guarantorInput.addEventListener('click', () => {
-       let isGuarantorChecked = guarantorInput.querySelector('input').checked;
+      let isGuarantorChecked = guarantorInput.querySelector('input').checked;
       if (filename.includes("creditincrease")) {
         document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? increaseWithGuarantor : increaseNoGuarantor;
       }
