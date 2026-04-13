@@ -111,7 +111,7 @@ const guarantorCheckbox = inputs.find(
 
 const docWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf"; 
 const docNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
-const increasewithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-withguarantor.pdf";
+const increaseWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-withguarantor.pdf";
 const increaseNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-noguarantor.pdf";
 
 const filename = window.location.pathname.split("/").pop();
@@ -123,7 +123,7 @@ document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMB
     guarantorInput.addEventListener('click', () => {
        let isGuarantorChecked = guarantorInput.querySelector('input').checked;
       if (filename.includes("creditincrease")) {
-        document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? docWithGuarantor : docNoGuarantor;
+        document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? increaseWithGuarantor : increaseNoGuarantor;
       }
       else {
         document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? docWithGuarantor : docNoGuarantor;
