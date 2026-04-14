@@ -20,7 +20,6 @@ Where the customer downloads the data they entered. We need to change this from 
 • You can cancel a Direct Debit at any time by simply contacting your bank or building society. Written confirmation may be required. Please also notify us. 
 */
 
-
 /* 
 Paperless DD
 
@@ -59,7 +58,6 @@ Please confirm we are all aligned on the above.
 And also a question on the scenario Customer with KYC pack > 2 years old with an active DD (SAP sends KYC=N and DD=Y) - customer apply for credit via the full credit application journey – do we need to remove the Bank Details section in the KYC form so customers cannot submit another set of bank details?  I would say yes, as the process of cancelling and adding a bank has to be carefully managed
 */
 
-
 window.__currentNextClick = null;
 window.__copAutoAdvance = false;
 window.__copResumeInProgress = false;
@@ -69,94 +67,95 @@ const sections = [...document.getElementsByTagName("accordion-tab")];
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
 const inputs = [...document.getElementsByTagName("kyc-input")];
 
-
-const companyName = inputs.find(
-  (i) => i.getAttribute("data-name") === "CompanyName"
+const tradingStyle = inputs.find(
+  (i) => i.getAttribute("data-name") === "TradingStyle",
 );
-
-const businessName = inputs.find(
-  (i) => i.getAttribute("data-name") === "BusinessName"
-);
-
-const proprietorFirstName = inputs.find(
-  (i) => i.getAttribute("data-name") === "firstName" 
-);
-
-const proprietorSurname = inputs.find(
-  (i) => i.getAttribute("data-name") === "surname" 
-);
-
-const tradingStyle = inputs.find((i) => i.getAttribute("data-name") === "TradingStyle");
 
 const chosenTradingStyle = tradingStyle.shadowRoot;
 
-chosenTradingStyle.addEventListener('change', () => {
-  const chosen = tradingStyle.getAttribute("data-value");
-  const directDebitName = document.getElementById("directDebitName");
-  directDebitName.innerHTML = (chosen === "Sole Trader / Partnership") ? proprietorFirstName.getAttribute("data-value") + " " + proprietorSurname.getAttribute("data-value") : companyName.getAttribute("data-value");
+const directDebitName = document.getElementById("directDebitName");
+
+const nameOnAccount = inputs.find(
+  (i) => i.getAttribute("data-name") === "NameOnBankAccount",
+);
+
+const nameOnBankAccount = nameOnAccount.shadowRoot;
+
+nameOnBankAccount.addEventListener("input", (e) => {
+  directDebitName.innerHTML = e.target.value;
 });
 
 const bankSection = sections.find(
-  (s) => s.getAttribute("data-title") === "Bank Details"
+  (s) => s.getAttribute("data-title") === "Bank Details",
 );
 
 const businessTradingSection = sections.find(
-  (s) => s.getAttribute("data-title") === "Business / Trading Information"
+  (s) => s.getAttribute("data-title") === "Business / Trading Information",
 );
 
 const guarantorCheckbox = inputs.find(
-  (i) => i.getAttribute("data-name") === "guarantorsCheckbox"
+  (i) => i.getAttribute("data-name") === "guarantorsCheckbox",
 );
 
+const docWithGuarantor =
+  "https://www.booker.co.uk/~/media/Files/KYC/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor";
+const docNoGuarantor =
+  "https://www.booker.co.uk/~/media/Files/KYC/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor";
+const increaseWithGuarantor =
+  "https://www.booker.co.uk/~/media/Files/KYC/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-withguarantor";
+const increaseNoGuarantor =
+  "https://www.booker.co.uk/~/media/Files/KYC/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-noguarantor";
 
-const docWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor.pdf"; 
-const docNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
-const increaseWithGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-withguarantor.pdf";
-const increaseNoGuarantor = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-noguarantor.pdf";
-
+const guarantorInput = guarantorCheckbox.shadowRoot;
 const filename = window.location.pathname.split("/").pop();
 
-document.getElementById("confirmAccountHolderUrl").href = "/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-noguarantor.pdf";
+document.getElementById("confirmAccountHolderUrl").href = (filename.includes("creditincrease")) ? increaseNoGuarantor : docNoGuarantor;
 
-
-    const guarantorInput = guarantorCheckbox.shadowRoot;
-    guarantorInput.addEventListener('click', () => {
-       let isGuarantorChecked = guarantorInput.querySelector('input').checked;
-      if (filename.includes("creditincrease")) {
-        document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? increaseWithGuarantor : increaseNoGuarantor;
-      }
-      else {
-        document.getElementById("confirmAccountHolderUrl").href = (isGuarantorChecked) ? docWithGuarantor : docNoGuarantor;
-      }
-    });
-
+guarantorInput.addEventListener("click", () => {
+  let isGuarantorChecked = guarantorInput.querySelector("input").checked;
+  if (isGuarantorChecked) {
+      document.getElementById("confirmAccountHolderUrl").href = (filename.includes("creditincrease")) ? increaseWithGuarantor : docWithGuarantor;
+   
+  } else {
+    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("creditincrease")) ? increaseNoGuarantor : docNoGuarantor;
+  }
+});
 
 const bankVerificationErrorContainer = document.getElementById(
-  "bankVerificationErrorContainer"   
+  "bankVerificationErrorContainer",
 );
 bankVerificationErrorContainer.classList.add("d-none");
 
 const nextButtons = [...document.getElementsByTagName("next-button")];
 
 const toggleBankDetailsContent = () => {
-  const bankWhiteContainers = [...bankSection.getElementsByTagName("white-container")];
-    bankWhiteContainers.map(container => {
-      if (container.id !== "confirmAccountHolderPayer" && container.id !== "bankVerificationErrorContainer") {container.classList.toggle('d-none')};
-    });
-    const bankKycInputs = [...bankSection.getElementsByTagName("kyc-input")];
-    bankKycInputs.map(input => { 
-      if (input.id !== "confirmAccountHolder") {input.classList.toggle('d-none');}
-    });
-    const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
-    bankKycNote.map(note => note.classList.toggle('d-none'));
-    bankSectionNextButton.classList.toggle('d-none');
-}
+  const bankWhiteContainers = [
+    ...bankSection.getElementsByTagName("white-container"),
+  ];
+  bankWhiteContainers.map((container) => {
+    if (
+      container.id !== "confirmAccountHolderPayer" &&
+      container.id !== "bankVerificationErrorContainer"
+    ) {
+      container.classList.toggle("d-none");
+    }
+  });
+  const bankKycInputs = [...bankSection.getElementsByTagName("kyc-input")];
+  bankKycInputs.map((input) => {
+    if (input.id !== "confirmAccountHolder") {
+      input.classList.toggle("d-none");
+    }
+  });
+  const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
+  bankKycNote.map((note) => note.classList.toggle("d-none"));
+  bankSectionNextButton.classList.toggle("d-none");
+};
 
 toggleBankDetailsContent();
 
-confirmAccountHolder.addEventListener('click', () => {
-    // function to unhide the entire Bank Details section
-    toggleBankDetailsContent();
+confirmAccountHolder.addEventListener("click", () => {
+  // function to unhide the entire Bank Details section
+  toggleBankDetailsContent();
 });
 
 document.addEventListener(
@@ -176,17 +175,22 @@ document.addEventListener(
     e.stopImmediatePropagation();
     e.preventDefault();
     if (window.iterateForErrors()) {
-      const bankTab = document.querySelector('accordion-tab[data-title="Bank Details"]');
+      const bankTab = document.querySelector(
+        'accordion-tab[data-title="Bank Details"]',
+      );
       const errorFields = [...bankTab?.querySelectorAll("kyc-input")];
       const firstErrorField = errorFields.find(
-        el => el.getAttribute("data-error") === "true"
+        (el) => el.getAttribute("data-error") === "true",
       );
-      firstErrorField?.scrollIntoView({
-        behavior: "smooth",
-        block: "start", 
-      }, 800);
+      firstErrorField?.scrollIntoView(
+        {
+          behavior: "smooth",
+          block: "start",
+        },
+        800,
+      );
       return;
-    } 
+    }
 
     const bankVerify = await runCopVerification();
 
@@ -194,7 +198,7 @@ document.addEventListener(
       console.log("Bank step: CoP verification failed");
       bankVerificationErrorContainer.classList.remove("d-none");
       const bankTab = document.querySelector(
-        'accordion-tab[data-title="Bank Details"]'
+        'accordion-tab[data-title="Bank Details"]',
       );
 
       const firstInput = bankTab?.querySelector("kyc-input");
@@ -216,10 +220,10 @@ document.addEventListener(
         bubbles: true,
         composed: true,
         cancelable: true,
-      })
+      }),
     );
   },
-  true
+  true,
 );
 
 async function runCopVerification() {
