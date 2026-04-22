@@ -42,7 +42,6 @@ const increaseNoGuarantor =
 const guarantorInput = guarantorCheckbox.shadowRoot;
 const filename = window.location.pathname.split("/").pop();
 
-
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
   if (chosenTradingStyleValue === "Ltd Company" && guarantorInput.querySelector("input").checked) {
@@ -56,10 +55,10 @@ chosenTradingStyle.addEventListener("change", () => {
 guarantorInput.addEventListener("change", () => {
   let isGuarantorChecked = guarantorInput.querySelector("input").checked;
   if (isGuarantorChecked && tradingStyle.getAttribute("data-value") === "Ltd Company") {
-      document.getElementById("confirmAccountHolderUrl").href = (filename.includes("creditincrease")) ? increaseWithGuarantor : docWithGuarantor;
+      document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseWithGuarantor : docWithGuarantor;
    
   } else {
-    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("creditincrease")) ? increaseNoGuarantor : docNoGuarantor;
+    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseNoGuarantor : docNoGuarantor;
   }
 });
 
