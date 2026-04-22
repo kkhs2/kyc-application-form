@@ -18,19 +18,6 @@ chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
 });
 
-
-const directDebitName = document.getElementById("directDebitName");
-
-const nameOnAccount = inputs.find(
-  (i) => i.getAttribute("data-name") === "NameOnBankAccount",
-);
-
-const nameOnBankAccount = nameOnAccount.shadowRoot;
-
-nameOnBankAccount.addEventListener("input", (e) => {
-  directDebitName.innerHTML = e.target.value;
-});
-
 const bankSection = sections.find(
   (s) => s.getAttribute("data-title") === "Bank Details",
 );
@@ -59,9 +46,9 @@ const filename = window.location.pathname.split("/").pop();
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
   if (chosenTradingStyleValue === "Ltd Company" && guarantorInput.querySelector("input").checked) {
-    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("creditincrease")) ? increaseWithGuarantor : docWithGuarantor; 
+    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseWithGuarantor : docWithGuarantor; 
   } else {
-    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("creditincrease")) ? increaseNoGuarantor : docNoGuarantor;
+    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseNoGuarantor : docNoGuarantor;
   }
 });
 
