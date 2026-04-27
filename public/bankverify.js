@@ -1,35 +1,3 @@
-window.__currentNextClick = null;
-window.__copAutoAdvance = false;
-window.__copResumeInProgress = false;
-
-const bankSectionNextButton = document.getElementById("bankSectionNextButton");
-const sections = [...document.getElementsByTagName("accordion-tab")];
-const confirmAccountHolder = document.getElementById("confirmAccountHolder");
-const inputs = [...document.getElementsByTagName("kyc-input")];
-let chosenTradingStyleValue = "";
-
-const tradingStyle = inputs.find(
-  (i) => i.getAttribute("data-name") === "TradingStyle",
-);
-
-const chosenTradingStyle = tradingStyle.shadowRoot;
-
-chosenTradingStyle.addEventListener("change", () => {
-  chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
-});
-
-const bankSection = sections.find(
-  (s) => s.getAttribute("data-title") === "Bank Details",
-);
-
-const businessTradingSection = sections.find(
-  (s) => s.getAttribute("data-title") === "Business / Trading Information",
-);
-
-const guarantorCheckbox = inputs.find(
-  (i) => i.getAttribute("data-name") === "guarantorsCheckbox",
-);
-
 const docWithGuarantor =
   "https://www.booker.co.uk/~/media/Files/KYC/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-withDDI-withguarantee-withguarantor";
 const docNoGuarantor =
@@ -39,26 +7,89 @@ const increaseWithGuarantor =
 const increaseNoGuarantor =
   "https://www.booker.co.uk/~/media/Files/KYC/Credit-Agreement-EMBEDDED-No-Visable-Fields-V5-credit-increase-withDDI-withguarantee-noguarantor";
 
-const guarantorInput = guarantorCheckbox.shadowRoot;
-const filename = window.location.pathname.split("/").pop();
+
+window.__currentNextClick = null;
+window.__copAutoAdvance = false;
+window.__copResumeInProgress = false;
+
+
+const bankSectionNextButton = document.getElementById("bankSectionNextButton");
+const sections = [...document.getElementsByTagName("accordion-tab")];
+const confirmAccountHolder = document.getElementById("confirmAccountHolder");
+const inputs = [...document.getElementsByTagName("kyc-input")];
+const notes = [...document.getElementsByTagName("kyc-note")];
+let chosenTradingStyleValue = "";
+let confirmAccountHolderUrl = document.getElementById("confirmAccountHolderUrl");
+
+const attributeFinder = (type, attr, value) => {
+  const val = type.find(v => v.getAttribute(attr) === value);
+  return (val !== undefined) ? val : null;
+};
+
+let bottomlineDidYouMean = attributeFinder(
+  notes,
+  "data-name",
+  "BottomlineDidYouMean",
+);
+
+
+
+const tradingStyle = attributeFinder(inputs, "data-name", "TradingStyle");
+
+const chosenTradingStyle = tradingStyle.shadowRoot;
 
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
-  if (chosenTradingStyleValue === "Ltd Company" && guarantorInput.querySelector("input").checked) {
-    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseWithGuarantor : docWithGuarantor; 
+});
+
+const bankSection = attributeFinder(sections, "data-title", "Bank Details");
+
+const guarantorCheckbox = attributeFinder(
+  inputs,
+  "data-name",
+  "guarantorsCheckbox",
+);
+
+const guarantorInput = guarantorCheckbox.shadowRoot;
+const path = window.location.pathname.split("/").pop();
+
+chosenTradingStyle.addEventListener("change", () => {
+  chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
+  if (
+    chosenTradingStyleValue === "Ltd Company" &&
+    guarantorInput.querySelector("input").checked
+  ) {
+    confirmAccountHolderUrl.href = path.includes(
+      "credit-increase",
+    )
+      ? increaseWithGuarantor
+      : docWithGuarantor;
   } else {
-    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseNoGuarantor : docNoGuarantor;
+    confirmAccountHolderUrl.href = path.includes(
+      "credit-increase",
+    )
+      ? increaseNoGuarantor
+      : docNoGuarantor;
   }
 });
 
-
 guarantorInput.addEventListener("change", () => {
   let isGuarantorChecked = guarantorInput.querySelector("input").checked;
-  if (isGuarantorChecked && tradingStyle.getAttribute("data-value") === "Ltd Company") {
-      document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseWithGuarantor : docWithGuarantor;
-   
+  if (
+    isGuarantorChecked &&
+    tradingStyle.getAttribute("data-value") === "Ltd Company"
+  ) {
+    confirmAccountHolderUrl.href = path.includes(
+      "credit-increase",
+    )
+      ? increaseWithGuarantor
+      : docWithGuarantor;
   } else {
-    document.getElementById("confirmAccountHolderUrl").href = (filename.includes("credit-increase")) ? increaseNoGuarantor : docNoGuarantor;
+    confirmAccountHolderUrl.href = path.includes(
+      "credit-increase",
+    )
+      ? increaseNoGuarantor
+      : docNoGuarantor;
   }
 });
 
@@ -73,7 +104,8 @@ const toggleBankDetailsContent = () => {
   const bankWhiteContainers = [
     ...bankSection.getElementsByTagName("white-container"),
   ];
-  bankWhiteContainers.map((container) => {
+
+  bankWhiteContainers.map(container => {
     if (
       container.id !== "confirmAccountHolderPayer" &&
       container.id !== "bankVerificationErrorContainer"
@@ -82,13 +114,13 @@ const toggleBankDetailsContent = () => {
     }
   });
   const bankKycInputs = [...bankSection.getElementsByTagName("kyc-input")];
-  bankKycInputs.map((input) => {
+  bankKycInputs.map(input => {
     if (input.id !== "confirmAccountHolder") {
       input.classList.toggle("d-none");
     }
   });
   const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
-  bankKycNote.map((note) => note.classList.toggle("d-none"));
+  bankKycNote.map(note => note.classList.add("d-none"));
   bankSectionNextButton.classList.toggle("d-none");
 };
 
@@ -105,7 +137,6 @@ document.addEventListener(
     const path = e.composedPath();
 
     const bankBtn = path.find((el) => el?.id === "bankSectionNextButton");
-
     if (!bankBtn) return;
 
     if (window.__copResumeInProgress) {
@@ -132,12 +163,21 @@ document.addEventListener(
       );
       return;
     }
-
+    bottomlineDidYouMean.classList.add("d-none");
     const bankVerify = await runCopVerification();
+
+    console.log(bankVerify);
 
     if (bankVerify?.match !== true) {
       console.log("Bank step: CoP verification failed");
       bankVerificationErrorContainer.classList.remove("d-none");
+      if (bankVerify.name !== null) {
+        bottomlineDidYouMean.setAttribute(
+          "data-content",
+          `Did you mean ${bankVerify.name}?`,
+        );
+        bottomlineDidYouMean.classList.remove("d-none");
+      }
       const bankTab = document.querySelector(
         'accordion-tab[data-title="Bank Details"]',
       );
@@ -149,6 +189,44 @@ document.addEventListener(
       });
       return;
     }
+
+    let bottomlineReason = attributeFinder(
+      inputs,
+      "data-name",
+      "BottomlineReason",
+    );
+
+    let bottomlineOriginalName = attributeFinder(
+      inputs,
+      "data-name",
+      "BottomlineOriginalName",
+    );
+
+    let bottomlineName = attributeFinder(inputs, "data-name", "BottomlineName");
+
+    let bottomlineReasonCode = attributeFinder(
+      inputs,
+      "data-name",
+      "BottomlineReasonCode",
+    );
+
+    let bottomlineTimestamp = attributeFinder(
+      inputs,
+      "data-name",
+      "BottomlineTimestamp",
+    );
+
+    bottomlineName.setAttribute("data-value", bankVerify.name);
+    bottomlineReasonCode.setAttribute("data-value", bankVerify.reasonCode);
+    bottomlineReason.setAttribute("data-value", bankVerify.reason);
+    bottomlineOriginalName.setAttribute("data-value", bankVerify.originalName);
+    bottomlineTimestamp.setAttribute("data-value", new Date().toISOString());
+
+    bottomlineName.classList.add("d-none");
+    bottomlineReasonCode.classList.add("d-none");
+    bottomlineReason.classList.add("d-none");
+    bottomlineOriginalName.classList.add("d-none");
+    bottomlineTimestamp.classList.add("d-none");
 
     window.__copResumeInProgress = true;
 

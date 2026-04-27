@@ -18,11 +18,24 @@ app.get("/", (req, res) => {
 
 app.use(express.json());
 
-const TOKEN_URL = "https://login.go.pt-x.com/auth/realms/bottomline/protocol/openid-connect/token";
-const REQUEST_URL = "https://ptx-shared-services.uk.pt-x.com/account-verification/v1/account-name-verifications";
+/*const TOKEN_URL = "https://login.go.pt-x.com/auth/realms/bottomline/protocol/openid-connect/token";
+const REQUEST_URL = "https://ptx-shared-services.uk.pt-x.com/account-verification/v1/account-name-verifications";*/
 
-const CLIENT_ID = process.env.PTX_CLIENT_ID;
-const CLIENT_SECRET = process.env.PTX_CLIENT_SECRET;
+
+const TOKEN_URL = "https://login.cat.uk.pt-x.com/auth/realms/bottomline/protocol/openid-connect/token";
+const REQUEST_URL = "https://ptx-shared-services.cat.uk.pt-x.com/account-verification/v1/account-name-verifications";
+
+
+//const CLIENT_ID = process.env.PTX_CLIENT_ID;
+//const CLIENT_SECRET = process.env.PTX_CLIENT_SECRET;
+//const CLIENT_ID = "BookerLtd_bcc-44aa-9ef6-2cc8e5358a6b";
+//const CLIENT_SECRET = "eOSrHkIp4t3hKQEBlbNY6te6HRd7Bh8d";
+
+/* UAT credentials */
+const CLIENT_ID = "BookerLtd(TR00027679)_41d-4fab-9a9a-1a193be88d77";
+const CLIENT_SECRET = "FeiIw6tzNyBhXp0xtqlUjPUF5J1YZlBC";
+
+
 const PORT = process.env.PORT || 3000;
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
@@ -41,6 +54,7 @@ async function getAccessToken() {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body
   });
+
 
   if (!res.ok) throw new Error(await res.text());
   return (await res.json()).access_token;

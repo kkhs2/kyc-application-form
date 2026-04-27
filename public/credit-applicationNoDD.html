@@ -939,7 +939,7 @@
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority') && self.isAccountHolderAndPayer()" data-type="select"
                                        data-label="Account Type"
-                                       data-value=""
+                                       data-value="Personal"
                                        data-name="AccountType"
                                        data-request-field-name="account-type"
                                        data-required="true"
@@ -957,7 +957,7 @@
                     ">
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="alphanumeric"
-                                       data-value=""
+                                       data-value="Miss Samantha Smythe"
                                        data-label="Name on Account"
                                        data-required="true"
                                        data-name="NameOnBankAccount"
@@ -966,13 +966,15 @@
                                        data-max="50"
                                        data-tooltip="Please ensure this matches the proof of bank document exactly. For Ltd Companies, this must be a Ltd Company Bank account."
                                        style="margin-top: 12px"></kyc-input>
+
+                                    <kyc-note data-name="BottomlineDidYouMean"></kyc-note>
                                     <kyc-note
                                           data-content="Note: Please ensure your Name on Account is entered exactly the same as shown on your bank statement"></kyc-note>
                             </div>
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="sortcode"
-                                       data-value=""
+                                       data-value="999996"
                                        data-label="Bank Sort Code"
                                        data-required="true"
                                        data-name="BankSortCode"
@@ -983,7 +985,7 @@
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="numeric"
-                                       data-value=""
+                                       data-value="00000001"
                                        data-label="Bank Account Number"
                                        data-required="true"
                                        data-name="BankAccountNumber"
@@ -1148,6 +1150,38 @@
                                        data-request-field-name="credit-type"
                                        data-tooltip="Cleardown Credit <br> Available credit terms are 7 or 14 days. A Direct Debit payment will be processed for the full balance on the account on the last day of the approved credit term. Eg. Accounts with 7 day cleardown credit, payment will be processed on Day 7 for all invoices raised Day 1-7. <br><br> Catering Credit <br> Available to Catering customers only (minimum spend applies). Monthly credit - all invoices raised within a calendar month are due for payment on the 15th of the following month. Eg. Invoices raised 1st-31st March are due for payment by Direct Debit on 15th April."></kyc-input>
 
+                                       <kyc-input data-type="numeric-text"
+                                        data-label="Bottomline Original Name"
+                                       data-placeholder=""
+                                       data-name="BottomlineOriginalName"
+                                       data-request-field-name="bottomline-original-name"></kyc-input>
+
+                                       <kyc-input data-type="numeric-text"
+                                        data-label="Bottomline Name"
+                                       data-placeholder=""
+                                       data-name="BottomlineName"
+                                       data-request-field-name="bottomline-name"></kyc-input>
+
+                                          <kyc-input data-type="numeric-text"
+                                        data-label="Bottomline Reason"
+                                       data-placeholder=""
+                                       data-request-field-name="bottomline-reason"
+                                       data-name="BottomlineReason"
+                                       ></kyc-input>
+
+                                       <kyc-input data-type="numeric-text"
+                                       data-label="Bottomline Reason Code"
+                                       data-placeholder=""
+                                       data-name="BottomlineReasonCode"
+                                       data-request-field-name="bottomline-reason-code"></kyc-input>
+
+                                       <kyc-input data-type="numeric-text"
+                                       data-label="Bottomline Timestamp"
+                                       data-placeholder=""
+                                       data-name="BottomlineTimestamp"
+                                       data-request-field-name="bottomline-timestamp"></kyc-input>
+
+
                             <span></span>
 
                             <kyc-note data-show-if="self.isCreditTypeEqual('Catering Account')"
@@ -1178,6 +1212,7 @@
                                            data-required="true"
                                            data-name="PaymentDay"
                                            data-request-field-name="payment-day"></kyc-input>
+
                             </white-container>
 
 <form action="/account/credit/credit-application" enctype="multipart/form-data" id="kyc-application-form" method="post" novalidate="true"><input id="uid" name="uid" type="hidden" value="51f52f9d-8715-4ad5-b4c4-98d8d605b873" /><input name="__RequestVerificationToken" type="hidden" value="nzlrWfVYfFlQxTvZwhv3QMINMiAtKse8BPee9ZXKtG_YraU4Mj_wQ4Meal9NvDJ0ugyKDYRJiBw239ZzpqBV7zprFS6NiaRtGTs3MbV0VwQ_j6vXpWUI7Fh583pEZzQxjXwSLUoXoQ2OI-Pq2V6gOuoiDdsR-1lEYABg2d6SKm01" />                                <next-button is-submit></next-button>
