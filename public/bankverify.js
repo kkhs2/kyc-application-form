@@ -170,6 +170,8 @@ document.addEventListener(
     bottomlineDidYouMean.classList.add("d-none");
     const bankVerify = await runCopVerification();
 
+    console.log(bankVerify);
+
     if (bankVerify?.match !== true) {
       console.log("Bank step: CoP verification failed");
       bankVerificationErrorContainer.classList.remove("d-none");

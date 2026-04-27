@@ -937,7 +937,7 @@
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority') && self.isAccountHolderAndPayer()" data-type="select"
                                        data-label="Account Type"
-                                       data-value=""
+                                       data-value="Personal"
                                        data-name="AccountType"
                                        data-request-field-name="account-type"
                                        data-required="true"
@@ -955,7 +955,7 @@
                     ">
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="alphanumeric"
-                                       data-value=""
+                                       data-value="Miss Sam Smythe"
                                        data-label="Name on Account"
                                        data-required="true"
                                        data-name="NameOnBankAccount"
@@ -964,13 +964,13 @@
                                        data-max="50"
                                        data-tooltip="Please ensure this matches the proof of bank document exactly. For Ltd Companies, this must be a Ltd Company Bank account."
                                        style="margin-top: 12px"></kyc-input>
-                                    <kyc-note
-                                          data-content="Note: Please ensure your Name on Account is entered exactly the same as shown on your bank statement"></kyc-note>
+                                    <kyc-note data-name="BottomlineDidYouMean"></kyc-note>
+                                    <kyc-note data-name="NameOnAccountNote" data-content="Note: Please ensure your Name on Account is entered exactly the same as shown on your bank statement" ></kyc-note>
                             </div>
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="sortcode"
-                                       data-value=""
+                                       data-value="999996"
                                        data-label="Bank Sort Code"
                                        data-required="true"
                                        data-name="BankSortCode"
@@ -981,7 +981,7 @@
 
                             <kyc-input data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                                        data-type="numeric"
-                                       data-value=""
+                                       data-value="00000001"
                                        data-label="Bank Account Number"
                                        data-required="true"
                                        data-name="BankAccountNumber"
@@ -1150,6 +1150,37 @@
                                        data-request-field-name="credit-limit-required"
                                        data-min="0"
                                        data-max="6"></kyc-input>
+
+                                       <kyc-input data-type="numeric-text"
+                                        data-label="Bottomline Original Name"
+                                       data-placeholder=""
+                                       data-name="BottomlineOriginalName"
+                                       data-request-field-name="bottomline-original-name"></kyc-input>
+
+                                       <kyc-input data-type="numeric-text"
+                                        data-label="Bottomline Name"
+                                       data-placeholder=""
+                                       data-name="BottomlineName"
+                                       data-request-field-name="bottomline-name"></kyc-input>
+
+                                          <kyc-input data-type="numeric-text"
+                                        data-label="Bottomline Reason"
+                                       data-placeholder=""
+                                       data-request-field-name="bottomline-reason"
+                                       data-name="BottomlineReason"
+                                       ></kyc-input>
+
+                                       <kyc-input data-type="numeric-text"
+                                       data-label="Bottomline Reason Code"
+                                       data-placeholder=""
+                                       data-name="BottomlineReasonCode"
+                                       data-request-field-name="bottomline-reason-code"></kyc-input>
+
+                                       <kyc-input data-type="numeric-text"
+                                       data-label="Bottomline Timestamp"
+                                       data-placeholder=""
+                                       data-name="BottomlineTimestamp"
+                                       data-request-field-name="bottomline-timestamp"></kyc-input>
 
 
 <form action="/account/credit/credit-increase-application" enctype="multipart/form-data" id="kyc-application-form" method="post" novalidate="true"><input id="uid" name="uid" type="hidden" value="73439783-9c55-4722-ae3f-6e1b1db58991" /><input name="__RequestVerificationToken" type="hidden" value="fIyluztCu0z5j3mdto0VoseQ6PTYPTGgGZhXZLXzKoYpOYMoUBWe-EvuFjBi3TaKm9LYvRgYpqY_6n8P1HlAFjuUoDRFOWZtr4easucZqz3p4PbMtAnzpWARLkLBqxi2QHMURTJ24ECUNKyOr5WD0Q2" />                                <next-button is-submit></next-button>
