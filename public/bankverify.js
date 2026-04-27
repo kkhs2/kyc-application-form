@@ -120,15 +120,18 @@ const toggleBankDetailsContent = () => {
     }
   });
   const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
-  bankKycNote.map(note => note.classList.add("d-none"));
   bankSectionNextButton.classList.toggle("d-none");
 };
 
 toggleBankDetailsContent();
 
-confirmAccountHolder.addEventListener("click", () => {
+confirmAccountHolder.addEventListener("change", () => {
   // function to unhide the entire Bank Details section
   toggleBankDetailsContent();
+  const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
+  bankKycNote.map(note => (note.getAttribute("data-name") === "NameOnAccountNote" && confirmAccountHolder.checked) ? 
+      note.classList.remove("d-none") : note.classList.add("d-none") 
+  );
 });
 
 document.addEventListener(
@@ -165,8 +168,6 @@ document.addEventListener(
     }
     bottomlineDidYouMean.classList.add("d-none");
     const bankVerify = await runCopVerification();
-
-    console.log(bankVerify);
 
     if (bankVerify?.match !== true) {
       console.log("Bank step: CoP verification failed");
