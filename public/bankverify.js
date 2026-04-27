@@ -43,6 +43,8 @@ chosenTradingStyle.addEventListener("change", () => {
 });
 
 const bankSection = attributeFinder(sections, "data-title", "Bank Details");
+const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
+bankKycNote.map(note => note.classList.add("d-none"));
 
 const guarantorCheckbox = attributeFinder(
   inputs,
@@ -119,7 +121,6 @@ const toggleBankDetailsContent = () => {
       input.classList.toggle("d-none");
     }
   });
-  const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
   bankSectionNextButton.classList.toggle("d-none");
 };
 
