@@ -25,7 +25,8 @@ const creditRequirementsSection = sections.filter(
   (section) => section.getAttribute("data-title") === "Credit Requirements",
 );
 
-const hasExistingDd = document.getElementById("HasExistingDD").value.toLowerCase();
+const urlParams = new URLSearchParams(document.location.search);
+const hasExistingDd = (urlParams.get("hasExistingDD")) ? urlParams.get("hasExistingDD") : document.getElementById("HasExistingDD").value.toLowerCase();
 
 async function runCopVerification() {
   try {
