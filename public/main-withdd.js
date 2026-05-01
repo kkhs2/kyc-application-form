@@ -2351,10 +2351,7 @@
                   if (!errors)
                     return (
                       "" ===
-                        trading_style_1.default.value &&
-                      1 === active_tab_1.default.value
-                        ? (active_tab_1.default.value = 3)
-                        : (active_tab_1.default.value =
+                        trading_style_1.default.value && 1 === active_tab_1.default.value ? (active_tab_1.default.value = 3) : (active_tab_1.default.value =
                             active_tab_1.default.value + 1),
                       (unlocked_tabs_1.default.value =
                         active_tab_1.default.value),

@@ -41,6 +41,17 @@ const hasExistingDd = urlParams.get("hasExistingDD")
     ? document.getElementById("HasExistingDD").value.toLowerCase()
     : false;
 
+const currentCreditLimit = isIncrease
+  ? document.getElementById("CreditLimitLabel").value
+  : null;
+const currentCredit = currentCreditLimit
+  ? currentCreditLimit.replace(/[£|\,]/g, "")
+  : null;
+
+const creditLimitRequired = isIncrease
+  ? attributeFinder(inputs, "CreditLimitRequired", "data-name")
+  : null;
+
 async function runCopVerification() {
   try {
     const response = await fetch("/api/cop", {
@@ -125,6 +136,39 @@ const chosenTradingStyle = tradingStyle.shadowRoot;
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
   removeBankDetailsIfActiveDirectDebit();
+  /*if (chosenTradingStyleValue === "Council / Local Authority") {
+    const proprietorButton = nextButtons[1].shadowRoot.querySelector("button");
+    proprietorButton.addEventListener("click", () => {
+
+       const accordionTabs = [...document.querySelectorAll("accordion-tab")];
+    accordionTabs.map(accordion => {
+      const a = accordion.shadowRoot.querySelector(".accordion-tab-title");
+      console.log(a);
+      /*if (a.classList.contains("active")) {
+        console.log(a);
+      }*/
+    /*});
+
+      const creditSection = creditRequirementsSection[0];
+      const creditSectionShadow = creditSection.shadowRoot;
+      creditSectionShadow
+        .querySelector(".accordion-tab .accordion-tab-title")
+        .classList.add("active");
+      creditSectionShadow
+        .querySelector(".accordion-tab .chevron-down-icon")
+        .classList.add("active");
+      const tabContent = creditSection.querySelector("tab-content").shadowRoot;
+      tabContent.querySelector(".accordion-content").classList.remove("closed");
+      tabContent.querySelector(".accordion-content").classList.add("opened");
+
+      const councilSubmit = [...document.querySelectorAll("next-button")];
+      councilSubmit.map(submit => {
+        if (submit.getAttribute("is-submit")) {
+        console.log("dean");
+      }
+      });
+    });
+  }*/
 });
 
 const bankSection = attributeFinder(sections, "data-title", "Bank Details");
