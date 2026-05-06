@@ -164,7 +164,7 @@ chosenTradingStyle.addEventListener("change", () => {
       const councilSubmit = [...document.querySelectorAll("next-button")];
       councilSubmit.map(submit => {
         if (submit.getAttribute("is-submit")) {
-        console.log("dean");
+        
       }
       });
     });

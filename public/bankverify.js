@@ -11,6 +11,11 @@ window.__currentNextClick = null;
 window.__copAutoAdvance = false;
 window.__copResumeInProgress = false;
 
+const attributeFinder = (type, attr, value) => {
+  const val = type.find((v) => v.getAttribute(attr) === value);
+  return val !== undefined ? val : null;
+};
+
 const bankSectionNextButton = document.getElementById("bankSectionNextButton");
 const sections = [...document.getElementsByTagName("accordion-tab")];
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
@@ -26,10 +31,35 @@ const creditRequirementsSection = sections.filter(
 
 const nextButtons = [...document.getElementsByTagName("next-button")];
 
-const attributeFinder = (type, attr, value) => {
-  const val = type.find((v) => v.getAttribute(attr) === value);
-  return val !== undefined ? val : null;
-};
+const creditLimit = document.getElementById("CreditLimitLabel")
+  ? document.getElementById("CreditLimitLabel").value
+  : null;
+
+if (creditLimit !== null) {
+  const creditLimitValue = parseInt(creditLimit.replace(/[£|\,]/g, ""));
+  const requestedCredit = attributeFinder(
+    inputs,
+    "data-name",
+    "CreditLimitRequired",
+  );
+  const requestedCreditInput =
+    requestedCredit.shadowRoot.querySelector("input");
+  const originalSubmit = HTMLFormElement.prototype.submit;
+
+  requestedCreditInput.addEventListener("change", (event) => {
+    const requestedCreditValue = event.target.value;
+    HTMLFormElement.prototype.submit = function () {
+      if (this.id === "kyc-application-form") {
+        if (requestedCreditValue < creditLimitValue) {
+          alert(`Your credit increase request amount must be greater than £${creditLimitValue}`);
+          console.log("Increase amount is smaller than current limit");
+          return;
+        }  
+        return originalSubmit.apply(this, arguments);
+      }
+    };
+  });
+}
 
 const path = window.location.pathname.split("/").pop();
 const isIncrease = path.includes("credit-increase") ? true : false;
