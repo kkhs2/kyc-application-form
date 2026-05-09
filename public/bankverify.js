@@ -35,6 +35,12 @@ const creditLimit = document.getElementById("CreditLimitLabel")
   ? document.getElementById("CreditLimitLabel").value
   : null;
 
+let creditLimitRequiredError = attributeFinder(notes, "data-name", "CreditLimitRequiredError");
+
+if (creditLimitRequiredError !== null) {
+  creditLimitRequiredError.classList.add("d-none");
+}
+
 if (creditLimit !== null) {
   const creditLimitValue = parseInt(creditLimit.replace(/[£|\,]/g, ""));
   const requestedCredit = attributeFinder(
@@ -51,7 +57,11 @@ if (creditLimit !== null) {
     HTMLFormElement.prototype.submit = function () {
       if (this.id === "kyc-application-form") {
         if (requestedCreditValue < creditLimitValue) {
-          alert(`Your credit increase request amount must be greater than £${creditLimitValue}`);
+          creditLimitRequiredError.classList.remove("d-none");
+          creditLimitRequiredError.setAttribute(
+            "data-content",
+            `You have requested for a credit increase amount which is lower than your current credit limit. To submit your request please enter a credit increase amount higher than £${creditLimitValue}.`
+          );
           console.log("Increase amount is smaller than current limit");
           return;
         }  
@@ -70,6 +80,10 @@ const hasExistingDd = urlParams.get("hasExistingDD")
   : document.getElementById("HasExistingDD")
     ? document.getElementById("HasExistingDD").value.toLowerCase()
     : false;
+
+const hasExistingDdHiddenField = attributeFinder(inputs, "data-name", "hasExistingDD");
+hasExistingDdHiddenField.classList.add("d-none");
+const hasExistingDdHiddenFieldValue = hasExistingDdHiddenField.setAttribute("data-value", hasExistingDd);
 
 async function runCopVerification() {
   try {
