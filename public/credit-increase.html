@@ -716,7 +716,7 @@
                         class="mt-14"
                       ></kyc-input>
 
-                      <kyc-input
+                      <!--<kyc-input
                         data-show-if="!self.isTradingStyleEqual('Council / Local Authority')"
                         data-type="email"
                         data-placeholder="name@example.com"
@@ -742,10 +742,9 @@
                         data-max="100"
                         data-order="7"
                         class="mt-14"
-                      ></kyc-input>
+                      ></kyc-input>-->
 
                       <kyc-input
-                        data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
                         id="user-email"
                         data-type="email"
                         data-placeholder="name@example.com"
@@ -761,7 +760,6 @@
                       ></kyc-input>
 
                       <kyc-input
-                        data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
                         data-type="confirm-email"
                         data-placeholder="name@example.com"
                         data-required="true"
@@ -1795,19 +1793,11 @@
         </main>
 
         <script nonce="<nonce>">
-          /*const inputs = [...document.getElementsByTagName("kyc-input")];
-    const email = inputs.find(
-        (i) => i.getAttribute("data-name") === "VDDEmailAddress"
-    );
-
-    if (email) {
-        const emailInput = email.shadowRoot;
-        emailInput.querySelector('input').disabled = true;
-    }
+          
 
     $(function () {
         console.log(window.location.origin);
-    })*/
+    })
         </script>
       </div>
     </div>
