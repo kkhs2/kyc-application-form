@@ -214,17 +214,19 @@ const guarantorCheckbox = attributeFinder(
 
 const guarantorInput = guarantorCheckbox.shadowRoot;
 
+console.log(isIncrease);
+
 chosenTradingStyle.addEventListener("change", () => {
     chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
     if (
         chosenTradingStyleValue === "Ltd Company" &&
         guarantorInput.querySelector("input").checked
     ) {
-        confirmAccountHolderUrl.href = isIncrease
+        confirmAccountHolderUrl.href = (isIncrease === "true")
             ? increaseWithGuarantor
             : docWithGuarantor;
     } else {
-        confirmAccountHolderUrl.href = isIncrease
+        confirmAccountHolderUrl.href = (isIncrease === "true")
             ? increaseNoGuarantor
             : docNoGuarantor;
     }
@@ -236,11 +238,11 @@ guarantorInput.addEventListener("change", () => {
         isGuarantorChecked &&
         tradingStyle.getAttribute("data-value") === "Ltd Company"
     ) {
-        confirmAccountHolderUrl.href = isIncrease
+        confirmAccountHolderUrl.href = (isIncrease === "true")
             ? increaseWithGuarantor
             : docWithGuarantor;
     } else {
-        confirmAccountHolderUrl.href = isIncrease
+        confirmAccountHolderUrl.href = (isIncrease === "true")
             ? increaseNoGuarantor
             : docNoGuarantor;
     }
