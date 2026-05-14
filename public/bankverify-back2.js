@@ -36,7 +36,20 @@ const creditLimit = document.getElementById("CreditLimitLabel")
   : null;
 
 const path = window.location.pathname.split("/").pop();
-const isIncrease = path.includes("credit-increase") ? true : false;
+
+const isIncrease = document.getElementById("IsIncrease")
+  ? document.getElementById("IsIncrease").value.toLowerCase()
+  : false;
+const isIncreaseHiddenField = attributeFinder(
+  inputs,
+  "data-name",
+  "isIncrease",
+);
+isIncreaseHiddenField.classList.add("d-none");
+const isIncreaseHiddenFieldValue = isIncreaseHiddenField.setAttribute(
+  "data-value",
+  isIncrease,
+);
 
 const urlParams = new URLSearchParams(document.location.search);
 const hasExistingDd = urlParams.get("hasExistingDD")
@@ -75,7 +88,7 @@ if (hasExistingDd === "true") {
     confirmEmailAddress !== null ? true : false;
 }
 
-if (isIncrease) {
+if (isIncrease === "true") {
   creditLimitRequiredError.classList.add("d-none");
 
   if (creditLimit !== null) {
@@ -213,11 +226,11 @@ chosenTradingStyle.addEventListener("change", () => {
     chosenTradingStyleValue === "Ltd Company" &&
     guarantorInput.querySelector("input").checked
   ) {
-    confirmAccountHolderUrl.href = isIncrease
+    confirmAccountHolderUrl.href = (isIncrease === "true")
       ? increaseWithGuarantor
       : docWithGuarantor;
   } else {
-    confirmAccountHolderUrl.href = isIncrease
+    confirmAccountHolderUrl.href = (isIncrease === "true")
       ? increaseNoGuarantor
       : docNoGuarantor;
   }
@@ -229,11 +242,11 @@ guarantorInput.addEventListener("change", () => {
     isGuarantorChecked &&
     tradingStyle.getAttribute("data-value") === "Ltd Company"
   ) {
-    confirmAccountHolderUrl.href = isIncrease
+    confirmAccountHolderUrl.href = (isIncrease === true)
       ? increaseWithGuarantor
       : docWithGuarantor;
   } else {
-    confirmAccountHolderUrl.href = isIncrease
+    confirmAccountHolderUrl.href = (isIncrease === true)
       ? increaseNoGuarantor
       : docNoGuarantor;
   }

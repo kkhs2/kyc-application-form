@@ -37,21 +37,6 @@ const creditLimit = document.getElementById("CreditLimitLabel")
 
 const path = window.location.pathname.split("/").pop();
 
-const urlParams = new URLSearchParams(document.location.search);
-const hasExistingDd = document.getElementById("HasExistingDD")
-  ? document.getElementById("HasExistingDD").value.toLowerCase()
-  : false;
-const hasExistingDdHiddenField = attributeFinder(
-  inputs,
-  "data-name",
-  "hasExistingDD",
-);
-hasExistingDdHiddenField.classList.add("d-none");
-const hasExistingDdHiddenFieldValue = hasExistingDdHiddenField.setAttribute(
-  "data-value",
-  hasExistingDd,
-);
-
 const isIncrease = document.getElementById("IsIncrease")
   ? document.getElementById("IsIncrease").value.toLowerCase()
   : false;
@@ -64,6 +49,24 @@ isIncreaseHiddenField.classList.add("d-none");
 const isIncreaseHiddenFieldValue = isIncreaseHiddenField.setAttribute(
   "data-value",
   isIncrease,
+);
+
+const urlParams = new URLSearchParams(document.location.search);
+const hasExistingDd = urlParams.get("hasExistingDD")
+  ? urlParams.get("hasExistingDD")
+  : document.getElementById("HasExistingDD")
+    ? document.getElementById("HasExistingDD").value.toLowerCase()
+    : false;
+
+const hasExistingDdHiddenField = attributeFinder(
+  inputs,
+  "data-name",
+  "hasExistingDD",
+);
+hasExistingDdHiddenField.classList.add("d-none");
+const hasExistingDdHiddenFieldValue = hasExistingDdHiddenField.setAttribute(
+  "data-value",
+  hasExistingDd,
 );
 
 let creditLimitRequiredError = attributeFinder(
@@ -121,7 +124,7 @@ if (isIncrease === "true") {
 
 async function runCopVerification() {
   try {
-    const response = await fetch("/api/booker-credit/Credit/VerifyAccount", {
+    const response = await fetch("/api/cop", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -134,7 +137,7 @@ async function runCopVerification() {
         accountNumber: document
           .querySelector('[data-name="BankAccountNumber"]')
           .getAttribute("data-value"),
-        accountType: document
+        type: document
           .querySelector('[data-name="AccountType"]')
           .getAttribute("data-value"),
       }),
@@ -206,10 +209,8 @@ chosenTradingStyle.addEventListener("change", () => {
 });
 
 const bankSection = attributeFinder(sections, "data-title", "Bank Details");
-if (bankSection !== null) {
-  const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
-  bankKycNote.map((note) => note.classList.add("d-none"));
-}
+const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
+bankKycNote.map((note) => note.classList.add("d-none"));
 
 const guarantorCheckbox = attributeFinder(
   inputs,
@@ -225,11 +226,13 @@ chosenTradingStyle.addEventListener("change", () => {
     chosenTradingStyleValue === "Ltd Company" &&
     guarantorInput.querySelector("input").checked
   ) {
-    confirmAccountHolderUrl.href =
-      isIncrease === "true" ? increaseWithGuarantor : docWithGuarantor;
+    confirmAccountHolderUrl.href = (isIncrease === "true")
+      ? increaseWithGuarantor
+      : docWithGuarantor;
   } else {
-    confirmAccountHolderUrl.href =
-      isIncrease === "true" ? increaseNoGuarantor : docNoGuarantor;
+    confirmAccountHolderUrl.href = (isIncrease === "true")
+      ? increaseNoGuarantor
+      : docNoGuarantor;
   }
 });
 
@@ -239,20 +242,20 @@ guarantorInput.addEventListener("change", () => {
     isGuarantorChecked &&
     tradingStyle.getAttribute("data-value") === "Ltd Company"
   ) {
-    confirmAccountHolderUrl.href =
-      isIncrease === "true" ? increaseWithGuarantor : docWithGuarantor;
+    confirmAccountHolderUrl.href = (isIncrease === true)
+      ? increaseWithGuarantor
+      : docWithGuarantor;
   } else {
-    confirmAccountHolderUrl.href =
-      isIncrease === "true" ? increaseNoGuarantor : docNoGuarantor;
+    confirmAccountHolderUrl.href = (isIncrease === true)
+      ? increaseNoGuarantor
+      : docNoGuarantor;
   }
 });
 
 const bankVerificationErrorContainer = document.getElementById(
   "bankVerificationErrorContainer",
 );
-
-if (bankVerificationErrorContainer !== null)
-  bankVerificationErrorContainer.classList.add("d-none");
+bankVerificationErrorContainer.classList.add("d-none");
 
 const submitButtonComponent = document.querySelector("next-button[is-submit]");
 
@@ -278,21 +281,19 @@ const toggleBankDetailsContent = () => {
   bankSectionNextButton.classList.toggle("d-none");
 };
 
-if (hasExistingDd === "true" && bankSection !== null) {
-  toggleBankDetailsContent();
+toggleBankDetailsContent();
 
-  confirmAccountHolder.addEventListener("change", () => {
-    // function to unhide the entire Bank Details section
-    toggleBankDetailsContent();
-    const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
-    bankKycNote.map((note) =>
-      note.getAttribute("data-name") === "NameOnAccountNote" &&
-      confirmAccountHolder.checked
-        ? note.classList.remove("d-none")
-        : note.classList.add("d-none"),
-    );
-  });
-}
+confirmAccountHolder.addEventListener("change", () => {
+  // function to unhide the entire Bank Details section
+  toggleBankDetailsContent();
+  const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
+  bankKycNote.map((note) =>
+    note.getAttribute("data-name") === "NameOnAccountNote" &&
+    confirmAccountHolder.checked
+      ? note.classList.remove("d-none")
+      : note.classList.add("d-none"),
+  );
+});
 
 if (hasExistingDd === "false") {
   document.addEventListener(
