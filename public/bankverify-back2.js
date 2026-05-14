@@ -62,12 +62,17 @@ let creditLimitRequiredError = attributeFinder(
   "CreditLimitRequiredError",
 );
 
-
 if (hasExistingDd === "true") {
   const emailAddress = attributeFinder(inputs, "data-name", "EmailAddress");
-  const confirmEmailAddress = attributeFinder(inputs, "data-name", "ConfirmEmailAddress");
-  emailAddress.shadowRoot.querySelector("input").disabled = (emailAddress !== null) ? true : false;
-  confirmEmailAddress.shadowRoot.querySelector("input").disabled = (confirmEmailAddress !== null) ? true : false;
+  const confirmEmailAddress = attributeFinder(
+    inputs,
+    "data-name",
+    "ConfirmEmailAddress",
+  );
+  emailAddress.shadowRoot.querySelector("input").disabled =
+    emailAddress !== null ? true : false;
+  confirmEmailAddress.shadowRoot.querySelector("input").disabled =
+    confirmEmailAddress !== null ? true : false;
 }
 
 if (isIncrease) {
