@@ -101,10 +101,12 @@ if (isIncrease === "true") {
     const requestedCreditInput =
       requestedCredit.shadowRoot.querySelector("input");
     const originalSubmit = HTMLFormElement.prototype.submit;
-
+    
     requestedCreditInput.addEventListener("change", (event) => {
       const requestedCreditValue = event.target.value;
       HTMLFormElement.prototype.submit = function () {
+		  console.log("form submit", this.id, requestedCreditValue, creditLimitValue);
+		  return;
         if (this.id === "kyc-application-form") {
           if (requestedCreditValue < creditLimitValue) {
             creditLimitRequiredError.classList.remove("d-none");
@@ -124,7 +126,7 @@ if (isIncrease === "true") {
 
 async function runCopVerification() {
   try {
-    const response = await fetch("/api/cop", {
+    const response = await fetch("/api/booker-credit/Credit/VerifyAccount", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -137,7 +139,7 @@ async function runCopVerification() {
         accountNumber: document
           .querySelector('[data-name="BankAccountNumber"]')
           .getAttribute("data-value"),
-        type: document
+        accountType: document
           .querySelector('[data-name="AccountType"]')
           .getAttribute("data-value"),
       }),
@@ -220,12 +222,10 @@ const guarantorCheckbox = attributeFinder(
 
 const guarantorInput = guarantorCheckbox.shadowRoot;
 
-console.log(confirmAccountHolderUrl);
-
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
   if (
-    chosenTradingStyleValue === "Ltd Company" && confirmAccountHolderUrl !== null &&
+    chosenTradingStyleValue === "Ltd Company" &&
     guarantorInput.querySelector("input").checked
   ) {
     confirmAccountHolderUrl.href = (isIncrease === "true")
@@ -242,7 +242,7 @@ guarantorInput.addEventListener("change", () => {
   let isGuarantorChecked = guarantorInput.querySelector("input").checked;
   if (
     isGuarantorChecked &&
-    tradingStyle.getAttribute("data-value") === "Ltd Company" && confirmAccountHolderUrl !== null
+    tradingStyle.getAttribute("data-value") === "Ltd Company"
   ) {
     confirmAccountHolderUrl.href = (isIncrease === true)
       ? increaseWithGuarantor
