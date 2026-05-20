@@ -220,8 +220,6 @@ const guarantorCheckbox = attributeFinder(
 
 const guarantorInput = guarantorCheckbox.shadowRoot;
 
-console.log(confirmAccountHolderUrl);
-
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
   if (
