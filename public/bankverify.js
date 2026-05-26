@@ -16,8 +16,11 @@ const attributeFinder = (type, attr, value) => {
   return val !== undefined ? val : null;
 };
 
+const accordions = document.getElementsByTagName("kyc-input");
+
 const bankSectionNextButton = document.getElementById("bankSectionNextButton");
 const sections = [...document.getElementsByTagName("accordion-tab")];
+
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
 const inputs = [...document.getElementsByTagName("kyc-input")];
 const notes = [...document.getElementsByTagName("kyc-note")];
@@ -74,6 +77,34 @@ let creditLimitRequiredError = attributeFinder(
   "data-name",
   "CreditLimitRequiredError",
 );
+
+if (sections.length > 0) {
+  sections.forEach((section) => {
+    const shadow = section.shadowRoot;
+    const tabs = shadow.querySelectorAll(".accordion-tab.accordion-tab-title");
+
+    tabs.forEach((tab) => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          const el = mutation.target;
+
+          if (el.classList.contains("active")) {
+            // scroll to top of active section
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      observer.observe(tab, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    });
+  });
+}
 
 if (hasExistingDd === "true") {
   const emailAddress = attributeFinder(inputs, "data-name", "EmailAddress");
@@ -209,6 +240,7 @@ chosenTradingStyle.addEventListener("change", () => {
 });
 
 const bankSection = attributeFinder(sections, "data-title", "Bank Details");
+
 const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
 bankKycNote.map((note) => note.classList.add("d-none"));
 
@@ -223,16 +255,15 @@ const guarantorInput = guarantorCheckbox.shadowRoot;
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
   if (
-    chosenTradingStyleValue === "Ltd Company" && confirmAccountHolderUrl !== null &&
+    chosenTradingStyleValue === "Ltd Company" &&
+    confirmAccountHolderUrl !== null &&
     guarantorInput.querySelector("input").checked
   ) {
-    confirmAccountHolderUrl.href = (isIncrease === "true")
-      ? increaseWithGuarantor
-      : docWithGuarantor;
+    confirmAccountHolderUrl.href =
+      isIncrease === "true" ? increaseWithGuarantor : docWithGuarantor;
   } else {
-    confirmAccountHolderUrl.href = (isIncrease === "true")
-      ? increaseNoGuarantor
-      : docNoGuarantor;
+    confirmAccountHolderUrl.href =
+      isIncrease === "true" ? increaseNoGuarantor : docNoGuarantor;
   }
 });
 
@@ -240,15 +271,14 @@ guarantorInput.addEventListener("change", () => {
   let isGuarantorChecked = guarantorInput.querySelector("input").checked;
   if (
     isGuarantorChecked &&
-    tradingStyle.getAttribute("data-value") === "Ltd Company" && confirmAccountHolderUrl !== null
+    tradingStyle.getAttribute("data-value") === "Ltd Company" &&
+    confirmAccountHolderUrl !== null
   ) {
-    confirmAccountHolderUrl.href = (isIncrease === true)
-      ? increaseWithGuarantor
-      : docWithGuarantor;
+    confirmAccountHolderUrl.href =
+      isIncrease === true ? increaseWithGuarantor : docWithGuarantor;
   } else {
-    confirmAccountHolderUrl.href = (isIncrease === true)
-      ? increaseNoGuarantor
-      : docNoGuarantor;
+    confirmAccountHolderUrl.href =
+      isIncrease === true ? increaseNoGuarantor : docNoGuarantor;
   }
 });
 
