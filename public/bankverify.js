@@ -46,6 +46,7 @@ if (sections.length > 0) {
     });
 }
 
+
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
 const inputs = [...document.getElementsByTagName("kyc-input")];
 const notes = [...document.getElementsByTagName("kyc-note")];
