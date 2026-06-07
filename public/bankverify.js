@@ -18,8 +18,33 @@ const attributeFinder = (type, attr, value) => {
 
 const accordions = document.getElementsByTagName("kyc-input");
 
+const businessType = document.getElementById("BusinessTypeDescription") ? document.getElementById("BusinessTypeDescription").value : null;
+
 const bankSectionNextButton = document.getElementById("bankSectionNextButton");
 const sections = [...document.getElementsByTagName("accordion-tab")];
+if (sections.length > 0) {
+    sections.forEach(section => {
+        const shadow = section.shadowRoot;
+        const tabs = shadow.querySelectorAll(".accordion-tab .accordion-tab-title");
+        tabs.forEach(tab => {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    const el = mutation.target;
+                    if (el.classList.contains("active")) {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+            observer.observe(tab, {
+                attributes: true,
+                attributeFilter: ["class"]
+            });
+        });
+    });
+}
 
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
 const inputs = [...document.getElementsByTagName("kyc-input")];
@@ -78,33 +103,7 @@ let creditLimitRequiredError = attributeFinder(
   "CreditLimitRequiredError",
 );
 
-if (sections.length > 0) {
-  sections.forEach((section) => {
-    const shadow = section.shadowRoot;
-    const tabs = shadow.querySelectorAll(".accordion-tab.accordion-tab-title");
 
-    tabs.forEach((tab) => {
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          const el = mutation.target;
-
-          if (el.classList.contains("active")) {
-            // scroll to top of active section
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            });
-          }
-        });
-      });
-
-      observer.observe(tab, {
-        attributes: true,
-        attributeFilter: ["class"],
-      });
-    });
-  });
-}
 
 if (hasExistingDd === "true") {
   const emailAddress = attributeFinder(inputs, "data-name", "EmailAddress");
@@ -141,7 +140,7 @@ if (isIncrease === "true") {
             creditLimitRequiredError.classList.remove("d-none");
             creditLimitRequiredError.setAttribute(
               "data-content",
-              `You have requested for a credit increase amount which is lower than your current credit limit. To submit your request please enter a credit increase amount higher than £${creditLimitValue}.`,
+              `You have requested for a credit increase amount which is lower than your current credit limit. To submit your request please enter a credit increase amount higher than ${creditLimitValue}GBP.`,
             );
             console.log("Increase amount is smaller than current limit");
             return;
@@ -151,6 +150,23 @@ if (isIncrease === "true") {
       };
     });
   }
+}
+
+if (isIncrease !== "true" && businessType === "Catering") {
+  const creditTypeInput = attributeFinder(inputs, "data-name", "CreditType");
+    const numberDaysCreditInput = attributeFinder(inputs, "data-name", "NumberDaysCredit");
+     
+    const averageWeeklySpendInput = attributeFinder(inputs, "data-name", "AverageWeeklySpend");
+    const averageWeeklySpend =  averageWeeklySpendInput.shadowRoot.querySelector("input");
+    averageWeeklySpend.addEventListener('change', () => {
+    if (averageWeeklySpendInput.getAttribute("data-value") < 500) {
+      creditTypeInput.setAttribute("data-options", "Cleardown Credit");
+      numberDaysCreditInput.setAttribute("data-options", "14");
+    } else {
+      creditTypeInput.setAttribute("data-options", "self.getCreditTypeSelectOptions()");
+      numberDaysCreditInput.setAttribute("data-options", "7, 14");
+    }
+  }); 
 }
 
 async function runCopVerification() {

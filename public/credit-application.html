@@ -190,6 +190,7 @@
                                        data-order="self.isTradingStyleEqual('Charity / Other') ? 5 : 2"></kyc-input>
 
                             <kyc-input data-show-if="self.isTradingStyleEqual('Sole Trader / Partnership') || self.isTradingStyleEqual('Charity / Other') || self.isTradingStyleEqual('Ltd Company')"
+                                       data-required="true"
                                        data-type="address"
                                        data-label="Business (Trading) Name"
                                        data-value=""
@@ -210,6 +211,7 @@
                                        data-order="1"></kyc-input>
 
                             <kyc-input data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
+                                       data-required="true"
                                        data-type="text"
                                        data-label="Council Name"
                                        data-value=""
@@ -219,6 +221,7 @@
                                        data-max="40"></kyc-input>
 
                             <kyc-input data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
+                                       data-required="true"
                                        data-type="address"
                                        data-label="Business (Trading) Name"
                                        data-value=""
@@ -293,7 +296,7 @@
                                 </div>
                             </address-box>
 
-                            <kyc-input data-show-if="!self.isTradingStyleEqual('Sole Trader / Partnership') && !self.isTradingStyleEqual('Council / Local Authority')"
+                            <kyc-input data-show-if="!self.isTradingStyleEqual('Sole Trader / Partnership')"
                                        data-required="true"
                                        data-type="numeric-text"
                                        data-label="Registration/Charity No"
@@ -305,7 +308,7 @@
                                        data-order="4"
                                        class="mt-14"></kyc-input>
 
-                            <kyc-input data-show-if="!self.isTradingStyleEqual('Sole Trader / Partnership') && !self.isTradingStyleEqual('Council / Local Authority')"
+                            <kyc-input data-show-if="!self.isTradingStyleEqual('Sole Trader / Partnership')"
                                        data-required="true"
                                        data-type="date"
                                        data-label="Date of incorporation"
@@ -1122,7 +1125,7 @@ Should there be an additional mandate signatory required, please complete the de
                     <tab-content data-index="3">
                         <div class="slot-container">
                             <kyc-input data-type="numeric"
-                                       data-value="20000"
+                                       data-value=""
                                        data-label="Average Weekly spend"
                                        data-placeholder="£"
                                        data-required="true"
@@ -1226,7 +1229,8 @@ Should there be an additional mandate signatory required, please complete the de
 
                             </white-container>
 
-<form action="/account/credit/credit-application" enctype="multipart/form-data" id="kyc-application-form" method="post" novalidate="true"><input id="uid" name="uid" type="hidden" value="" /><input name="__RequestVerificationToken" type="hidden" value="" /><input data-val="true" data-val-required="The HasExistingDD field is required." id="HasExistingDD" name="HasExistingDD" type="hidden" value="False" data-request-field-name="has-existing-dd" /><input data-val="true" data-val-required="The IsIncrease field is required." id="IsIncrease" name="IsIncrease" type="hidden" value="False" /> <next-button is-submit></next-button>
+<form action="/account/credit/credit-application" enctype="multipart/form-data" id="kyc-application-form" method="post" novalidate="true"><input id="uid" name="uid" type="hidden" value="" /><input name="__RequestVerificationToken" type="hidden" value="" /><input data-val="true" data-val-required="The HasExistingDD field is required." id="HasExistingDD" name="HasExistingDD" type="hidden" value="False" data-request-field-name="has-existing-dd" /><input data-val="true" data-val-required="The IsIncrease field is required." id="IsIncrease" name="IsIncrease" type="hidden" value="False" /><input id="BusinessType" name="BusinessType" type="hidden" value="2" /><input id="BusinessTypeDescription" name="BusinessTypeDescription" type="hidden" value="Catering" />    
+ <next-button is-submit></next-button>
 </form>                           </div>
                     </tab-content>
                 </accordion-tab>

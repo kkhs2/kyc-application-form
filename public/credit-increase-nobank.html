@@ -514,6 +514,7 @@
 
                       <kyc-input
                         data-show-if="self.isTradingStyleEqual('Sole Trader / Partnership') || self.isTradingStyleEqual('Charity / Other') || self.isTradingStyleEqual('Ltd Company')"
+                        data-required="true"
                         data-type="address"
                         data-label="Business (Trading) Name"
                         data-value="test"
@@ -538,6 +539,7 @@
 
                       <kyc-input
                         data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
+                        data-required="true"
                         data-type="text"
                         data-label="Council Name"
                         data-value="test"
@@ -549,6 +551,7 @@
 
                       <kyc-input
                         data-show-if="self.isTradingStyleEqual('Council / Local Authority')"
+                        data-required="true"
                         data-type="address"
                         data-label="Business (Trading) Name"
                         data-value="test"
@@ -653,7 +656,7 @@
                       ></kyc-input>
 
                       <kyc-input
-                        data-show-if="!self.isTradingStyleEqual('Sole Trader / Partnership') && !self.isTradingStyleEqual('Council / Local Authority')"
+                        data-show-if="!self.isTradingStyleEqual('Sole Trader / Partnership')"
                         data-required="true"
                         data-type="date"
                         data-label="Date of incorporation"
