@@ -18,34 +18,35 @@ const attributeFinder = (type, attr, value) => {
 
 const accordions = document.getElementsByTagName("kyc-input");
 
-const businessType = document.getElementById("BusinessTypeDescription") ? document.getElementById("BusinessTypeDescription").value : null;
+const businessType = document.getElementById("BusinessTypeDescription")
+  ? document.getElementById("BusinessTypeDescription").value
+  : null;
 
 const bankSectionNextButton = document.getElementById("bankSectionNextButton");
 const sections = [...document.getElementsByTagName("accordion-tab")];
 if (sections.length > 0) {
-    sections.forEach(section => {
-        const shadow = section.shadowRoot;
-        const tabs = shadow.querySelectorAll(".accordion-tab .accordion-tab-title");
-        tabs.forEach(tab => {
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    const el = mutation.target;
-                    if (el.classList.contains("active")) {
-                        window.scrollTo({
-                            top: 0,
-                            behavior: "smooth"
-                        });
-                    }
-                });
+  sections.forEach((section) => {
+    const shadow = section.shadowRoot;
+    const tabs = shadow.querySelectorAll(".accordion-tab .accordion-tab-title");
+    tabs.forEach((tab) => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          const el = mutation.target;
+          if (el.classList.contains("active")) {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
             });
-            observer.observe(tab, {
-                attributes: true,
-                attributeFilter: ["class"]
-            });
+          }
         });
+      });
+      observer.observe(tab, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
     });
+  });
 }
-
 
 const confirmAccountHolder = document.getElementById("confirmAccountHolder");
 const inputs = [...document.getElementsByTagName("kyc-input")];
@@ -104,7 +105,28 @@ let creditLimitRequiredError = attributeFinder(
   "CreditLimitRequiredError",
 );
 
+const requestedCredit = attributeFinder(
+  inputs,
+  "data-name",
+  "CreditLimitRequired",
+);
 
+const creditTypeInput = attributeFinder(inputs, "data-name", "CreditType");
+const numberDaysCreditInput = attributeFinder(
+  inputs,
+  "data-name",
+  "NumberDaysCredit",
+);
+
+const averageWeeklySpendInput = attributeFinder(
+  inputs,
+  "data-name",
+  "AverageWeeklySpend",
+);
+
+const averageWeeklySpend =
+  averageWeeklySpendInput.shadowRoot.querySelector("input");
+const creditLimitRequired = requestedCredit.shadowRoot.querySelector("input");
 
 if (hasExistingDd === "true") {
   const emailAddress = attributeFinder(inputs, "data-name", "EmailAddress");
@@ -124,11 +146,6 @@ if (isIncrease === "true") {
 
   if (creditLimit !== null) {
     const creditLimitValue = parseInt(creditLimit.replace(/[£|\,]/g, ""));
-    const requestedCredit = attributeFinder(
-      inputs,
-      "data-name",
-      "CreditLimitRequired",
-    );
     const requestedCreditInput =
       requestedCredit.shadowRoot.querySelector("input");
     const originalSubmit = HTMLFormElement.prototype.submit;
@@ -151,23 +168,6 @@ if (isIncrease === "true") {
       };
     });
   }
-}
-
-if (isIncrease !== "true" && businessType === "Catering") {
-  const creditTypeInput = attributeFinder(inputs, "data-name", "CreditType");
-    const numberDaysCreditInput = attributeFinder(inputs, "data-name", "NumberDaysCredit");
-     
-    const averageWeeklySpendInput = attributeFinder(inputs, "data-name", "AverageWeeklySpend");
-    const averageWeeklySpend =  averageWeeklySpendInput.shadowRoot.querySelector("input");
-    averageWeeklySpend.addEventListener('change', () => {
-    if (averageWeeklySpendInput.getAttribute("data-value") < 500) {
-      creditTypeInput.setAttribute("data-options", "Cleardown Credit");
-      numberDaysCreditInput.setAttribute("data-options", "14");
-    } else {
-      creditTypeInput.setAttribute("data-options", "self.getCreditTypeSelectOptions()");
-      numberDaysCreditInput.setAttribute("data-options", "7, 14");
-    }
-  }); 
 }
 
 async function runCopVerification() {
@@ -251,11 +251,6 @@ const tradingStyle = attributeFinder(inputs, "data-name", "TradingStyle");
 
 const chosenTradingStyle = tradingStyle.shadowRoot;
 
-chosenTradingStyle.addEventListener("change", () => {
-  chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
-  removeBankDetailsIfActiveDirectDebit();
-});
-
 const bankSection = attributeFinder(sections, "data-title", "Bank Details");
 
 const bankKycNote = [...bankSection.getElementsByTagName("kyc-note")];
@@ -269,8 +264,40 @@ const guarantorCheckbox = attributeFinder(
 
 const guarantorInput = guarantorCheckbox.shadowRoot;
 
+const resetCreditRequirements = () => {
+  averageWeeklySpend.value = "";
+  creditLimitRequired.value = "";
+  creditTypeInput.setAttribute(
+    "data-options",
+    "self.getCreditTypeSelectOptions()",
+  );
+  numberDaysCreditInput.setAttribute("data-options", "7, 14");
+};
+
 chosenTradingStyle.addEventListener("change", () => {
   chosenTradingStyleValue = tradingStyle.getAttribute("data-value");
+  removeBankDetailsIfActiveDirectDebit();
+  resetCreditRequirements();
+  averageWeeklySpend.addEventListener("change", () => {
+    if (
+      isIncrease === "false" &&
+      businessType === "Catering" &&
+      chosenTradingStyleValue !== "Council / Local Authority"
+    ) {
+      if (averageWeeklySpendInput.getAttribute("data-value") < 500) {
+        creditTypeInput.setAttribute("data-options", "Cleardown Credit");
+        numberDaysCreditInput.setAttribute("data-options", "14");
+      } else {
+        creditTypeInput.setAttribute(
+          "data-options",
+          "self.getCreditTypeSelectOptions()",
+        );
+        numberDaysCreditInput.setAttribute("data-options", "7, 14");
+      }
+    }
+  });
+
+  
   if (
     chosenTradingStyleValue === "Ltd Company" &&
     confirmAccountHolderUrl !== null &&
